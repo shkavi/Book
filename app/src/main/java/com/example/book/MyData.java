@@ -25,7 +25,7 @@ public class MyData extends SQLiteOpenHelper {
 
 
 
-    public MyData(@Nullable Context context) {
+    MyData(@Nullable Context context) {
         super(context, DATABASE_NAME, null,DAABASE_VERSION);
         this.context=context;
     }
@@ -72,5 +72,18 @@ public class MyData extends SQLiteOpenHelper {
             cursor=db.rawQuery(query,null);
         }
         return cursor;
+    }
+    void updateData(String row_id,String title,String author, String pages){
+        SQLiteDatabase db= this.getWritableDatabase();
+        ContentValues cv= new ContentValues();
+        cv.put(COLUMN_TITLE,title);
+        cv.put(COLUMN_AUTHOR,author);
+        cv.put(COLUMN_PAGES,pages);
+        long result=db.update(TABLE_NAME,cv, "_id=?",new String[]{row_id});
+        if(result==-1){
+            Toast.makeText(context, "FailedToUpdate.", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "Successfull", Toast.LENGTH_SHORT).show();
+        }
     }
 }
