@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -83,7 +84,21 @@ public class MyData extends SQLiteOpenHelper {
         if(result==-1){
             Toast.makeText(context, "FailedToUpdate.", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(context, "Successfull", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
         }
+    }
+    void deleteOneRow(String row_id)
+    {
+        SQLiteDatabase db= this.getWritableDatabase();
+        long result=db.delete(TABLE_NAME,"_id=?",new String[]{row_id});
+        if(result==-1){
+            Toast.makeText(context, "Failed to Delete", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+        }
+    }
+    void deleteAllData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM" + TABLE_NAME);
     }
 }
